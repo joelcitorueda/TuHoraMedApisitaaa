@@ -38,6 +38,15 @@ namespace TuHoraMedApisitaaa.Controllers
 			return Ok(usuarios);
 		}
 
+		[HttpGet("{id}")]
+		public async Task<ActionResult<Usuario>> ObtenerUsuarioPorId(int id)
+		{
+			var usuario = await _service.ObtenerUsuarioPorId(id);
+			if (usuario == null)
+				return NotFound("Usuario no encontrado.");
+			return Ok(usuario);
+		}
+
 		[HttpPut("{id}")]
 		public async Task<IActionResult> EditarUsuario(int id, [FromBody] Usuario actualizado)
 		{

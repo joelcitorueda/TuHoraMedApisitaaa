@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TuHoraMedApisitaaa.Models;
 using TuHoraMedApisitaaa.Services;
 using System.Collections.Generic;
+using TuHoraMedApisitaaa.DTOs;
 
 namespace TuHoraMedApisitaaa.Controllers
 {
@@ -18,12 +19,22 @@ namespace TuHoraMedApisitaaa.Controllers
 		}
 
 		[HttpPost("programar")]
-		public async Task<IActionResult> Programar([FromBody] Tratamiento tratamiento)
+		public async Task<IActionResult> Programar([FromBody] CrearTratamientoDTO tratamientoDto)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var nuevo = await _service.ProgramarTratamiento(tratamiento);
+			var nuevoTratamiento = new Tratamiento
+			{
+				PacienteId = tratamientoDto.PacienteId,
+				Medicamento = tratamientoDto.Medicamento,
+				Dosis = tratamientoDto.Dosis,
+				Frecuencia = tratamientoDto.Frecuencia,
+				Duracion = tratamientoDto.Duracion,
+				FechaInicio = tratamientoDto.FechaInicio
+			};
+
+			var nuevo = await _service.ProgramarTratamiento(nuevoTratamiento);
 			if (nuevo == null)
 				return BadRequest("Datos inválidos.");
 			return Ok(nuevo);
@@ -53,5 +64,14 @@ namespace TuHoraMedApisitaaa.Controllers
 				return NotFound("Tratamiento no encontrado.");
 			return Ok("Tratamiento eliminado correctamente.");
 		}
+
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<Tratamiento>>> ObtenerTodos()
+		{
+			var tratamientos = await _service.ObtenerTratamientos();
+			return Ok(tratamientos);
+		}
+
+
 	}
 }

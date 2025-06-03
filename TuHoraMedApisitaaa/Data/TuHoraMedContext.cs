@@ -13,6 +13,12 @@ namespace TuHoraMedApisitaaa.Data
 
 		public DbSet<Usuario> Usuarios { get; set; }
 		public DbSet<Tratamiento> Tratamientos { get; set; }
+		public DbSet<AdministracionTratamiento> AdministracionesTratamiento { get; set; }
+		public DbSet<HistorialMedico> HistorialesMedicos { get; set; }
+
+		public DbSet<Inventario> Inventarios { get; set; }
+		public DbSet<PanelPaciente> PanelPacientes { get; set; }
+
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
